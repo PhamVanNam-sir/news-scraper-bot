@@ -1,0 +1,54 @@
+name: News Scraper Bot
+
+on:
+  # Chạy tự động mỗi 5 phút
+  schedule:
+    - cron: '*/5 * * * *'
+  
+  # Cho phép chạy thủ công (hiện nút "Run workflow" trên GitHub)
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Bước 1: Lấy code từ kho chứa về máy ảo
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Bước 2: Cài đặt Python 3.13
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      # Bước 3: Cài đặt các thư viện từ requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Bước 4: Chạy file scraper.py
+      # Đây là lúc nó lấy secrets và truyền vào file Python
+      - name: Run script
+        run: python scraper.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+
+      # Bước 5: Lưu lại file "bộ nhớ" (processed_links.json)
+      # Đây là bước then chốt để bot "nhớ"
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add processed_links.json
+          
+          # Chỉ commit nếu file json có thay đổi
+          if ! git diff --staged --quiet; then
+            git commit -m "Update processed links database"
+            git push
+          else
+            echo "Không có thay đổi về link."
+          fi
