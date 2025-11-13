@@ -28,21 +28,17 @@ HEADERS = {
 # --- CÁC HÀM CHỨC NĂNG (Giữ nguyên) ---
 
 def load_processed_links():
-    today = datetime.date.today()
-    if os.path.exists(STATE_FILE):
-        try:
-            file_mtime = os.path.getmtime(STATE_FILE)
-            last_modified_date = datetime.date.fromtimestamp(file_mtime)
-            if last_modified_date < today:
-                print(f"Ngày mới ({today}): Đã xóa bộ nhớ đệm của ngày hôm qua.")
-                return set() 
-            print(f"Tiếp tục chạy cho ngày {today}. Tải file bộ nhớ...")
-        except Exception as e:
-            print(f"Lỗi khi kiểm tra ngày file: {e}. Bỏ qua và tải file...")
+    """
+    Tải links đã xử lý. (Phiên bản "Nhớ Vĩnh Cửu")
+    """
     try:
         with open(STATE_FILE, 'r') as f:
-            return set(json.load(f))
+            processed_list = json.load(f)
+            print(f"Đã tải {len(processed_list)} links từ bộ nhớ vĩnh cửu.")
+            return set(processed_list)
+            
     except (FileNotFoundError, json.JSONDecodeError):
+        # Nếu file không tồn tại hoặc rỗng, trả về set rỗng
         print(f"Không tìm thấy file {STATE_FILE} hoặc file rỗng. Bắt đầu bộ nhớ mới.")
         return set()
 
