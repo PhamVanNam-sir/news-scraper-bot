@@ -1920,7 +1920,7 @@ def fetch_tpb_news(seen_ids):
 
     # 2. Cấu hình Selenium (Headless)
     chrome_options = Options()
-    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--headless=new") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
@@ -2456,7 +2456,7 @@ def fetch_eib_news(seen_ids):
     
     # Cấu hình Selenium
     chrome_options = Options()
-    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--headless=new") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
@@ -2601,7 +2601,7 @@ def fetch_msb_news(seen_ids):
     
     # Cấu hình Selenium
     chrome_options = Options()
-    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--headless=new") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
@@ -2699,7 +2699,7 @@ def fetch_bvh_news(seen_ids):
     url = "https://baoviet.com.vn/vi/quan-he-co-dong"
     
     chrome_options = Options()
-    chrome_options.add_argument("--headless") 
+    chrome_options.add_argument("--headless=new") 
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")

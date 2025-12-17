@@ -1403,7 +1403,7 @@ def fetch_nvb_news(seen_ids):
     
     # Cấu hình Selenium
     chrome_options = Options()
-    chrome_options.add_argument("--headless") # Chạy ngầm cho gọn
+    chrome_options.add_argument("--headless=new") # Chạy ngầm cho gọn
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1920,1080")
@@ -1521,7 +1521,7 @@ def fetch_frt_news(seen_ids):
 
     # --- CẤU HÌNH SELENIUM ---
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     # Fake User-Agent xịn
@@ -1639,7 +1639,7 @@ def fetch_nab_news(seen_ids):
 
     # --- CẤU HÌNH SELENIUM CHE DẤU VẾT ---
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1920,1080")
@@ -2076,7 +2076,7 @@ def fetch_hag_news(seen_ids):
 
     # --- CẤU HÌNH SELENIUM ---
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--window-size=1920,1080")
