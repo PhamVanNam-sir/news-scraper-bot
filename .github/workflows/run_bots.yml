@@ -37,15 +37,15 @@ jobs:
 
     # Các bước chạy bot giữ nguyên, chúng sẽ tự đọc được biến env ở trên
     - name: Run Bot 1
-      run: python mot_con_bot.py
+      run: python -u mot_con_bot.py
       continue-on-error: true
 
     - name: Run Bot 2
-      run: python hai_con_bot.py # Nhớ đổi tên file cho đúng file của bạn
+      run: python -u hai_con_bot.py # Nhớ đổi tên file cho đúng file của bạn
       continue-on-error: true
 
     - name: Run Bot 3
-      run: python ba_con_bot.py  # Nhớ đổi tên file cho đúng file của bạn
+      run: python -u ba_con_bot.py  # Nhớ đổi tên file cho đúng file của bạn
       continue-on-error: true
 
     - name: Commit and Push Data
