@@ -1,0 +1,65 @@
+name: Bot Cào Tin Tức (3 Con)
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Chạy tự động mỗi 5 phút
+  workflow_dispatch:       # Nút bấm chạy thủ công (để test)
+
+permissions:
+  contents: write          # Cấp quyền ghi file để lưu data_news.json
+
+jobs:
+  run-scrapers:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Tải code từ kho về máy ảo
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # 2. Cài đặt Python 3.10
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    # 3. Cài đặt Chrome (Bắt buộc cho Selenium/Undetected-Chromedriver)
+    - name: Set up Chrome
+      uses: browser-actions/setup-chrome@latest
+
+    # 4. Cài đặt các thư viện trong requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # 5. CHẠY BOT 1 (mot_con_bot.py)
+    - name: Run Bot 1 (VCB, BID, v.v.)
+      run: python mot_con_bot.py
+      continue-on-error: true  # Nếu bot 1 lỗi, vẫn chạy tiếp bot sau
+
+    # 6. CHẠY BOT 2 (hai_con_bot.py)
+    - name: Run Bot 2 (KDH, VIX, v.v.)
+      run: python hai_con_bot.py
+      continue-on-error: true
+
+    # 7. CHẠY BOT 3 (ba_con_bot.py)
+    - name: Run Bot 3 (Nhóm còn lại)
+      run: python ba_con_bot.py
+      continue-on-error: true
+
+    # 8. LƯU DỮ LIỆU (Commit & Push file json)
+    - name: Commit and Push Data
+      run: |
+        git config --global user.name "Bot Cào Tin"
+        git config --global user.email "bot@github.com"
+        
+        # Add tất cả các file data_news...json
+        git add data_news*.json
+        
+        # Commit (Nếu không có thay đổi thì bỏ qua, không báo lỗi)
+        timestamp=$(date -u)
+        git commit -m "Auto-update data: ${timestamp}" || exit 0
+        
+        # Đẩy code lên lại kho
+        git push
